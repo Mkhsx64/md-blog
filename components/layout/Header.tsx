@@ -7,7 +7,7 @@ export default function Header() {
                 <p className="text-2xl font-extrabold">
                     <Link href="/">
                         <a title="Go to homepage" aria-label="Go to homepage">
-                            Jon's Blog
+                            Jonwritescode Blog
                         </a>
                     </Link>
                 </p>
