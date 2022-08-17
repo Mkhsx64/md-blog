@@ -1,6 +1,6 @@
 ## MD-Blog
 
-Created with ```create-next-app --Typescript```
+Created with ```npx create-next-app@latest --typescript```
 
 Current installed technologies to help facilitate content: Tailwindcss & Contentlayer.
 
