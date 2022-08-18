@@ -8,6 +8,6 @@ Current installed technologies to help facilitate content: Tailwindcss & Content
 
 Javascript, Typescript, and CSS.
 
-## Will be deployed using [Vercel](https://vercel.com)
+## Deployed using [Vercel](https://vercel.com)
 
 
