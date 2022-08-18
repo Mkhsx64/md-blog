@@ -1,0 +1,75 @@
+---
+title: Creating a Runbook
+date: 2022-08-18T01:43:00.000Z
+---
+## Creating a Runbook
+<Image alt="Hello" src="/creating-runbook/runbook.jpg" />
+Sets of standardized documents, references and procedures that explain common recurring IT tasks.
+- Makes delegating tasks and onboarding employees more effective.
+- Precise and specific to the systems your company is running and custom configurations that have been made.
+
+#### Two Types of Runbooks
+###### General Documentation
+- Updated by a sysadmin when new procedures arise or evolve.
+###### Specialized documentation
+- Written for one team, one use-case, or one system.
+
+Example [runbook](http://www.jimrcpa.com/~jimrcpa/images/Disaster%20Recovery%20Template%20from%20Xtium.pdf) on Disaster recovery
+
+###### Planning a runbook
+- Every runbook is unique and specific.
+- First stage is to plan which procedures need to be documented in your runbook.
+- When you have a list, you can write them up in detail.
+- Field-test the process, make updates and optimizations as necessary.
+
+#### Recommended runbook 7 sections:
+1.  **Overview:** Overview of the service: what is it, why do we have it, who are the primary contacts, how to report bugs, links to design docs, and other relevant information.
+2.  **Build:** How to build the software that makes the service. Where to download it from, where the source code repository is, steps for building and making a package, or other distribution mechanisms. If it is software that you modify in any way (open source project you contribute to or a local project) include instructions for how a new developer gets started. Ideally, the result is a package that can be copied to other machines for installation.
+3.  **Deploy:** How to deploy the software. How to build a server from scratch: RAM/disk requirements, OS version and configuration, what packages to install, and so on. If this is automated with a configuration management tool like cfengine/puppet/chef (and it should be), then say so.
+4.  **Common Tasks:** Step-by-step instructions for common things like provisioning (add/change/delete), common problems and their solutions, and so on.
+5.  **Pager Playbook**: A list of every alert your monitoring system may generate for this service and a step-by-step “what do to when…” for each of them.
+6.  **DR:** Disaster Recovery Plans and procedure. If a service machine died how would you fail-over to the hot/cold spare?
+7.  **SLA:** Service Level Agreement. The (social or real) contract you make with your customers. Typically things like Uptime Goal (how many 9s), RPO (Recovery Point Objective), and RTO (Recovery Time Objective).
+
+#### General Steps on Creating a Runbook
+##### Planning
+Ideas of generally executed procedures or tasks such as:
+- Disaster Recovery
+- Data Backups
+- New User Setup
+- Virtual Machine Troubleshooting
+- Patch Management
+
+A runbook should contain regularly executed tasks, complex instructions for regular to non-regular occuring issues, or even easily forgotten details pertaining to certain processes with systems/applications.
+
+An example of this is:
+- A new onboarded employee needs to become familar with a certain client's new user set up, which could be a large process, but if they have a checklist through the runbook. They could go through it sequentially and become familar with that particular environment much faster.
+
+##### Writing
+Writing the runbook documentation in a language that anyone can understand will make it so staff of every level can understand it for training purposes. Making no assumption of the skill of the user reading the document will help with this. 
+
+It is best to perform the task yourself and record the process during, as this will allow you to take note of every single action that was taken from start to finish. Even screen recording you performing the task will help, as you can go back and pause and make note of things that happened.
+
+Pull all resources used to perform the work such as:
+- Reference Documentation
+- Network Diagrams
+- Location of credentials
+- Configuration Information
+
+It's best to store SOPS, best practices, and organizational knowledge within the runbook for your team. Essentially creating a living document that anyone working on it can reference back to or update in the future.
+
+##### Improving
+In general a runbook is only as good as it is battle tested. Letting other team members test it out, make additions, and notes will only help further the knowledge that the runbook can provide.
+
+Process consultant Ian James has stated that improving a process after it's documented includes 11 steps:
+1.  **Get everyone on board.** When you’re making changes to the generally accepted way of doing work, it’s likely you’re going to need approval from higher-ups, and time from everybody involved.
+2.  **Choose the right process to optimize.** Which process is causing pains, needs to be handed off, or is too out of date to be useful?
+3.  **Calculate the time and resources you’ll need.** A pitch to upper management will need backing up with data.
+4.  **Act when the time is right.** Process improvement is necessary, but often that’s only apparent in a crisis.
+5.  **Set expectations for everyone involved.** If you’ll need 5 hours per week of a certain team’s time, and expect the project to take three weeks, make it clear.
+6.  **Offer process training.** Thinking critically about business systems is a learned skill. If your team doesn’t have training, prepare by getting them some.
+7.  **Build the process out in a workflow application.** Paper or Word documents will eventually fall flat. Paper forms can get lost, and collaboration is impossible in Word.
+8.  **Know why you’re improving the process.** Is it because it’s done frequently, has a high margin for variance, or because it needs to be predictable? Categorize the process by these criteria.
+9.  **Select your team size.** Choose a small number of trained individuals to help.
+10.  **Pick the right team members.** The only people who should be involved with optimizing a process are the people who run it.
+11.  **Get together in a dedicated room.** Ian James reports that projects where the team collaborates in a physical space have a 200% higher success rate.
