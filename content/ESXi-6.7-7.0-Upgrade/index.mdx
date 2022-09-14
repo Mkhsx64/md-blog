@@ -1,0 +1,110 @@
+---
+title: ESXi Host Upgrade 6.7 to 7.0 using VCSA
+date: 2022-09-14T17:00:00.000Z
+---
+<html align="center">
+## ESXi Host Upgrade in vCenter
+
+Open VMware vSphere Client in your web browser to access vCenter.
+
+There are two ESXi 6.7 hosts in this example, and these hosts are managed by vCenter 7.0.2. Shut down virtual machines on the ESXi hosts that you want to upgrade or migrate those VMs to other ESXi hosts. You can practice upgrading ESXi hosts in a virtual environment by running ESXi hosts and vCenter as virtual machines.
+
+Let’s upgrade the ESXi host with IP address is _192.168.101.65_. Select the needed ESXi host and check the current hypervisor version. As you can see in the screenshot below, the current version of our ESXi host before upgrade is _6.7.0 build 10302608_. If you want to upgrade multiple ESXi hosts, you can select a [cluster](https://www.nakivo.com/resources/white-paper/vmware-clustering-complete-guide/) or a datacenter.
+
+[![Checking the current ESXi version in VMware vSphere Client before starting ESXi upgrade](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Checking-the-current-ESXi-version-in-VMware-vSphere-Client-before-starting-ESXi-upgrade.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Checking-the-current-ESXi-version-in-VMware-vSphere-Client-before-starting-ESXi-upgrade.png)
+
+1.  Open **Lifecycle Manager**. You can do it by using different methods:
+    -   Click **Home** and in the left pane (navigation pane) click **Lifecycle Manager**, OR
+    -   Click **Menu** in the top of the vSphere Client window, and hit **Lifecycle Manager**.
+2.  Once you have opened VMware Lifecycle Manager in vSphere Client, select the **Imported ISOs** tab and click **Import ISO**.
+
+[![Importing the VMware ESXi 7.0 U2 installation ISO image for performing VMware ESXi upgrade](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Importing-the-VMware-ESXi-7.0-U2-installation-ISO-image-for-performing-VMware-ESXi-upgrade.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Importing-the-VMware-ESXi-7.0-U2-installation-ISO-image-for-performing-VMware-ESXi-upgrade.png)
+
+3.  Hit **Browse** and select the ESXi 7 Update 2 installation ISO image file. You can download the ESXi installation image from the [VMware website](https://my.vmware.com/en/web/vmware/evalcenter?p=free-esxi7) after registration (a VMware account is required).
+
+[![Browsing the installation ISO image for ESXi 6.7 to 7.0 upgrade](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Browsing-the-installation-ISO-image-for-ESXi-6.7-to-7.0-upgrade.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Browsing-the-installation-ISO-image-for-ESXi-6.7-to-7.0-upgrade.png)
+
+Once you have selected the ISO file, the importing process starts. In this example, the _VMware-VMvisor-Installer-7.0U2-17630552.x86_64.iso_ file is used.
+
+[![The ESXi 7.0 installation ISO image is uploading to the repository of Lifecycle Manager](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-ESXi-7.0-installation-ISO-image-is-uploading-to-the-repository-of-Lifecycle-Manager.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-ESXi-7.0-installation-ISO-image-is-uploading-to-the-repository-of-Lifecycle-Manager.png)
+
+After importing the ISO file, you can see the ESXi 7.0 Update 2 installation image in the _Imported ISOs_ tab.
+
+4.  Click **New baseline** to create a new baseline.
+
+[![Creating a new baseline after importing the ISO image](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Creating-a-new-baseline-after-importing-the-ISO-image.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Creating-a-new-baseline-after-importing-the-ISO-image.png)
+
+**Name and Description.** Enter the baseline name and description, for example, **ESXi 7.0 Update 2** and **ESXi 7.0 Update 2 baseline**.
+
+[![Entering a name and description for a new baseline](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Entering-a-name-and-description-for-a-new-baseline.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Entering-a-name-and-description-for-a-new-baseline.png)
+
+**Select ISO.** Select the ESXi 7 ISO image you have uploaded before (_VMware-VMvisor-Installer-7.0U2-17630552.x86_64.iso_). The displayed name is based on the corresponding ESXi profile (_ESXi-7.0.2-17630552-standard_).
+
+[![Selecting the ESXi 7.0 installation ISO image for a new baseline](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Selecting-the-ESXi-7.0-installation-ISO-image-for-a-new-baseline.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Selecting-the-ESXi-7.0-installation-ISO-image-for-a-new-baseline.png)
+
+**Summary.** Review your selections before finishing creating the baseline.
+
+[![Checking the summary for a new baseline creation](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Checking-the-summary-for-a-new-baseline-creation.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Checking-the-summary-for-a-new-baseline-creation.png)
+
+A baseline has now been created.
+
+5.  Go back to the **Hosts and clusters** screen, select the ESXi host that must be updated (_192.168.101.65_ in our case), and in the top right corner of the interface, click the **Updates** tab.
+
+[![Selecting the Updates tab after selecting the ESXi host that must be upgraded](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Selecting-the-Updates-tab-after-selecting-the-ESXi-host-that-must-be-upgraded.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Selecting-the-Updates-tab-after-selecting-the-ESXi-host-that-must-be-upgraded.png)
+
+When the baseline has been created, you have to attach that baseline to ESXi hosts you want to update. As you remember, we are going to update a single ESXi host in this walkthrough.
+
+6.  Hit **Baselines**, scroll down and find the _Attached Baselines_ section, then click **Attach** and in the menu that opens, click **Attach Baseline or Baseline Group**.
+
+[![Attaching a baseline or baseline group to the selected ESXi host for configuring the VMware ESXi upgrade](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Attaching-a-baseline-or-baseline-group-to-the-selected-ESXi-host-for-configuring-the-VMware-ESXi-upgrade.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Attaching-a-baseline-or-baseline-group-to-the-selected-ESXi-host-for-configuring-the-VMware-ESXi-upgrade.png)
+
+Select the **ESXi7.0 Update 2** baseline you have created before and click **Attach**. If there are any other baselines attached, remove those baselines by selecting them and clicking _Detach_.
+
+[![VMware upgrade - selecting the baseline to attach](https://www.nakivo.com/blog/wp-content/uploads/2020/08/VMware-upgrade-selecting-the-baseline-to-attach.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/VMware-upgrade-selecting-the-baseline-to-attach.png)
+
+7.  Now you have to check compliance. This step is needed to check whether the ESXi host has already the update installed. If you see the _non-compliant_ status, it means that the update is not installed on your ESXi host. Click **Check Compliance**.
+
+[![Checking compliance before performing ESXi upgrade](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Checking-compliance-before-performing-ESXi-upgrade.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Checking-compliance-before-performing-ESXi-upgrade.png)
+
+As you can see on the next screenshot, the ESXi status after checking is **non-compliant** and it means that you can install the needed update and upgrade ESXi 6.7 to ESXi 7.0 Update 2.
+
+[![The non-compliant status notifies you that updates have not been installed on an ESXi host yet](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-non-compliant-status-notifies-you-that-updates-have-not-been-installed-on-an-ESXi-host-yet.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-non-compliant-status-notifies-you-that-updates-have-not-been-installed-on-an-ESXi-host-yet.png)
+
+Pre-check remediation checks for any compliance issues that may occur after installing updates and the ESXi upgrade.
+
+[![Running pre-check remediation to check for any compliance issues that may occur after VMware ESXi upgrade](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Running-pre-check-remediation-to-check-for-any-compliance-issues-that-may-occur-after-VMware-ESXi-upgrade.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Running-pre-check-remediation-to-check-for-any-compliance-issues-that-may-occur-after-VMware-ESXi-upgrade.png)
+
+As you can see in the screenshot below, there are no issues after running remediation pre-check. Hit **Done** and go to upgrade the ESXi host.
+
+[![VMware upgrade - no issues found after remediation pre-check](https://www.nakivo.com/blog/wp-content/uploads/2020/08/VMware-upgrade-no-issues-found-after-remediation-pre-check.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/VMware-upgrade-no-issues-found-after-remediation-pre-check.png)
+
+8.  In the **Attached Baselines** section, select your _ESXi 7.0 Update 2_ baseline created before and click **Remediate** to start the ESXi 6.7 to 7.0 upgrade process.
+
+[![Clicking Remediate to start the upgrade process of ESXi 6.7 to ESXi 7.0](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Clicking-Remediate-to-start-the-upgrade-process-of-ESXi-6.7-to-ESXi-7.0.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Clicking-Remediate-to-start-the-upgrade-process-of-ESXi-6.7-to-ESXi-7.0.png)
+
+9.  A pop-up screen appears. Read the End User License Agreement (EULA) and select the **I accept the terms and license agreement** checkbox. Hit **OK** to continue.
+
+[![The end user license agreement must be accepted to perform the upgrade to ESXi 7.0](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-end-user-license-agreement-must-be-accepted-to-perform-the-upgrade-to-ESXi-7.0.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-end-user-license-agreement-must-be-accepted-to-perform-the-upgrade-to-ESXi-7.0.png)
+
+10.  Make sure that your ESXi host is selected and hit **Remediate** to upgrade ESXi 6.7 to 7.0. Don’t forget that virtual machines must be powered off or migrated from the ESXi host that is being upgraded.
+
+[![Remediating the selected ESXi 6.7 host for an upgrade to VMware ESXi 7.0 U2](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Remediating-the-selected-ESXi-6.7-host-for-an-upgrade-to-VMware-ESXi-7.0-U2.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/Remediating-the-selected-ESXi-6.7-host-for-an-upgrade-to-VMware-ESXi-7.0-U2.png)
+
+You can see the ESXi upgrade progress in the **Recent task** toolbar that can be expanded at the bottom of the VMware vSphere Client interface. The ESXi host is automatically entered into maintenance mode to install the upgrade.
+
+[![The ESXi host is entered into maintenance mode and the upgrade process is started](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-ESXi-host-is-entered-into-maintenance-mode-and-the-upgrade-process-is-started.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-ESXi-host-is-entered-into-maintenance-mode-and-the-upgrade-process-is-started.png)
+
+11.  When the ESXi upgrade process is finished, maintenance mode is turned off for the host, and the upgraded ESXi host is ready to work. You can select the ESXi host in the **Hosts and Clusters** view and check the version after the ESXi upgrade. As you can see in the screenshot below, the version is now _ESXi 7.0.2, 17630552_.
+
+[![The ESXi host has been upgraded to version 7.0 successfully](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-ESXi-host-has-been-upgraded-to-version-7.0-successfully.png)](https://www.nakivo.com/blog/wp-content/uploads/2020/08/The-ESXi-host-has-been-upgraded-to-version-7.0-successfully.png)
+
+If you see that a license is expired after an ESXi 6.7 to 7.0 upgrade on the upgraded host, you should apply a vSphere 7.0 license.
+
+If you need to upgrade an ESXi host on which a vCenter VM (a virtual appliance that is also known as VCSA) is running you can use one of the following approaches:
+
+-   Migrate the vCenter VM to another ESXi host and upgrade the source ESXi host.
+-   Shut down the vCenter VM and other VMs running on the ESXi host and upgrade ESXi by using ESXCLI as explained in the first part of this blog post. Note that SSH access must be enabled, and the lockdown mode must be disabled (you must be able to manage an ESXi host directly without vCenter).
+
+[Source](https://www.nakivo.com/blog/how-to-upgrade-from-vmware-vsphere-esxi-6-7-to-7-0/)
+
+</html>
